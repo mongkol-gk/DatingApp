@@ -37,10 +37,5 @@ namespace API.Data
         {
             _context.Photos.Remove(photo);
         }
-
-        public void UpdatePhoto(Photo photo)
-        {
-            _context.Entry(photo).State = EntityState.Modified;
-        }
     }
 }

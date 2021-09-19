@@ -10,6 +10,5 @@ namespace API.Interfaces
         Task<IEnumerable<PhotoForApprovalDto>> GetUnapprovedPhotosAsync();
         Task<Photo> GetPhotoByIdAsync(int id);
         void RemovePhoto(Photo photo);
-        void UpdatePhoto(Photo photo);
     }
 }

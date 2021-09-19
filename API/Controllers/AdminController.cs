@@ -92,8 +92,6 @@ namespace API.Controllers
 
             photo.IsApproved = true;
 
-            _unitOfWork.PhotoRepository.UpdatePhoto(photo);
-
             if (await _unitOfWork.Complete()) return NoContent();
 
             return BadRequest("Failed to approve photo");
