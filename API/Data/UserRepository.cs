@@ -23,10 +23,16 @@ namespace API.Data
             _context = context;
         }
 
-        public async Task<MemberDto> GetMemberAsync(string username)
+        public async Task<MemberDto> GetMemberAsync(string username, bool isCurrentUser)
         {
-            return await _context.Users
-                .Where(x => x.UserName == username)
+            var query = _context.Users.Where(x => x.UserName == username);
+
+            if (isCurrentUser)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+
+            return await query
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
@@ -83,6 +89,15 @@ namespace API.Data
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<AppUser> GetUserByPhotoIdAsync(int photoId)
+        {
+            return await _context.Users
+                .IgnoreQueryFilters()
+                .Include(x => x.Photos)
+                .Where(x => x.Photos.Any(x => x.Id == photoId))
+                .FirstOrDefaultAsync();
         }
     }
 }
